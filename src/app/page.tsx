@@ -1,0 +1,73 @@
+"use client";
+
+import { useAtom } from "jotai";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { offsetIndexAtom } from "@/atoms/offset-index";
+import { AboutPage } from "@/components/sections/about";
+import { LandingPage } from "@/components/sections/landing";
+import { ProjectsPage } from "@/components/sections/projects";
+import { SkillsPage } from "@/components/sections/skills";
+import { NavBar } from "@/components/nav";
+import { ContactsPage } from "@/components/sections/contacts";
+
+function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
+  const [index] = useAtom(offsetIndexAtom);
+
+  return (
+    <div className="relative md:w-3/4 md:h-3/4 w-[90%] h-[90%] overflow-hidden touch-none select-none">
+      {children.map((child, i) => (
+        <div
+          // biome-ignore lint/suspicious/noArrayIndexKey: They are constant, so it doesn't matter
+          key={i}
+          className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)]"
+          style={{
+            transform: `translateY(${(i - index) * 100}%)`,
+          }}
+        >
+          {child}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function Home() {
+  const [index, setIndex] = useAtom(offsetIndexAtom);
+
+  return (
+    <div className="relative h-screen flex items-center justify-center bg-[radial-gradient(60%_80%_at_bottom,rgba(155,60,255,0.18),transparent),radial-gradient(60%_80%_at_top,rgba(0,255,170,0.15),transparent)] md:bg-[radial-gradient(60%_80%_at_bottom_left,rgba(155,60,255,0.18),transparent),radial-gradient(60%_80%_at_top_right,rgba(0,255,170,0.15),transparent)]">
+      <NavBar />
+      <VerticalSwipe>
+        <LandingPage />
+        <AboutPage />
+        <SkillsPage />
+        <ProjectsPage />
+        <ContactsPage />
+      </VerticalSwipe>
+      <div className="absolute right-4 flex flex-col items-center gap-y-4 rounded-full bg-white/10 p-2">
+        <button
+          className="cursor-pointer disabled:cursor-default disabled:opacity-50"
+          type="button"
+          title="Previous section"
+          disabled={index === 0}
+          onClick={() => {
+            setIndex((prev) => prev - 1);
+          }}
+        >
+          <ArrowUp />
+        </button>
+        <button
+          className="cursor-pointer disabled:cursor-default disabled:opacity-50"
+          type="button"
+          title="Next section"
+          disabled={index === 4}
+          onClick={() => {
+            setIndex((prev) => prev + 1);
+          }}
+        >
+          <ArrowDown />
+        </button>
+      </div>
+    </div>
+  );
+}
