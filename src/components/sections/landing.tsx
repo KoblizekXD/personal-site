@@ -51,6 +51,16 @@ export function LandingPage() {
         ).toFixed(0)}{" "}
         year old Software Engineer from Czech Republic
       </motion.h3>
+      <div className="mt-auto flex flex-col font-[Poppins] font-light text-sm text-gray-600">
+        <motion.div variants={item} className="ml-auto">
+          <h3 className="font-semibold">Tasks</h3>
+          <p>I was asked to add this by my teacher (wow), but I think this is pointless 🤷‍♂️ <br /> and will make the site uglier.</p>
+          <br />
+          <ul>
+            <li>- Finish thesis</li>
+          </ul>
+        </motion.div>
+      </div>
       <div className="mt-auto flex items-center justify-center">
         <motion.button
           variants={button}
