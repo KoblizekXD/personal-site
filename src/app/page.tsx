@@ -1,20 +1,46 @@
 "use client";
 
-import { useAtom } from "jotai";
-import { ArrowDown, ArrowUp } from "lucide-react";
 import { offsetIndexAtom } from "@/atoms/offset-index";
+import { NavBar } from "@/components/nav";
 import { AboutPage } from "@/components/sections/about";
+import { ContactsPage } from "@/components/sections/contacts";
 import { LandingPage } from "@/components/sections/landing";
 import { ProjectsPage } from "@/components/sections/projects";
 import { SkillsPage } from "@/components/sections/skills";
-import { NavBar } from "@/components/nav";
-import { ContactsPage } from "@/components/sections/contacts";
+import { useAtom } from "jotai";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { useCallback, useEffect, useRef } from "react";
 
 function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
-  const [index] = useAtom(offsetIndexAtom);
+  const [index, setIndex] = useAtom(offsetIndexAtom);
+  const isAnimatingRef = useRef(false);
+
+  const handleWheel = useCallback(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      if (e.deltaY > 0 && !isAnimatingRef.current) {
+        setIndex((i) => Math.min(i + 1, children.length - 1));
+        isAnimatingRef.current = true;
+      } else if (e.deltaY < 0 && !isAnimatingRef.current) {
+        setIndex((i) => Math.max(i - 1, 0));
+        isAnimatingRef.current = true;
+      }
+    },
+    [children.length, setIndex]
+  );
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We need this
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 600);
+    return () => clearTimeout(timeout);
+  }, [index]);
 
   return (
-    <div className="relative md:w-3/4 md:h-3/4 w-[90%] h-[90%] overflow-hidden touch-none select-none">
+    <div
+      className="relative md:w-3/4 md:h-3/4 w-[90%] h-[90%] overflow-hidden touch-none select-none"
+      onWheel={handleWheel}
+    >
       {children.map((child, i) => (
         <div
           // biome-ignore lint/suspicious/noArrayIndexKey: They are constant, so it doesn't matter

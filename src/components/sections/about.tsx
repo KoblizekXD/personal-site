@@ -1,3 +1,4 @@
+import { offsetIndexAtom } from "@/atoms/offset-index";
 import {
   SiC,
   SiIntellijidea,
@@ -8,7 +9,7 @@ import {
 import { type Easing, motion } from "framer-motion";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { offsetIndexAtom } from "@/atoms/offset-index";
+import { useEffect, useState } from "react";
 
 const container = {
   hidden: { opacity: 1 },
@@ -29,14 +30,21 @@ const item = {
 
 export function AboutPage() {
   const [index, setIndex] = useAtom(offsetIndexAtom);
-  const isActive = index === 1;
+
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    if (index === 1 && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [index, hasAnimated]);
 
   return (
     <section id="about" className="flex flex-col p-12 gap-y-4 w-full h-full">
       <motion.div
         variants={container}
         initial="hidden"
-        animate={isActive ? "show" : "hidden"}
+        animate={hasAnimated ? "show" : index === 1 ? "show" : "hidden"}
         className="space-y-4 flex flex-col h-full"
       >
         <motion.h1
