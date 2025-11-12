@@ -71,8 +71,8 @@ export function SkillsPage() {
       id="skills"
       className="flex flex-col p-12 gap-y-8 w-full h-full"
     >
-      <h1 className="text-7xl font-[Poppins] font-light">My Skills</h1>
-      <h2 className="text-4xl font-[Poppins] font-light">Tools</h2>
+      <h1 className="md:text-7xl text-3xl font-[Poppins] font-medium md:font-light">My Skills</h1>
+      <h2 className="text-3xl md:text-4xl font-[Poppins] font-light">Tools</h2>
       <div className="flex items-center gap-x-4 *:size-8 [&>a]:hover:scale-150 [&>a]:transition-transform">
         {skillsData.tools.map(({ Icon, url }) => (
           <Link key={url} href={url} target="_blank" rel="noopener noreferrer">
@@ -80,7 +80,7 @@ export function SkillsPage() {
           </Link>
         ))}
       </div>
-      <h2 className="text-4xl font-[Poppins] font-light">
+      <h2 className="text-3xl md:text-4xl font-[Poppins] font-light">
         Databases & Platforms
       </h2>
       <div className="flex items-center gap-x-4 *:size-8 [&>a]:hover:scale-150 [&>a]:transition-transform">
@@ -90,7 +90,7 @@ export function SkillsPage() {
           </Link>
         ))}
       </div>
-      <h2 className="text-4xl font-[Poppins] font-light">
+      <h2 className="text-3xl md:text-4xl font-[Poppins] font-light">
         Languages & Frameworks
       </h2>
       <div className="flex items-center gap-x-4 *:size-8 [&>a]:hover:scale-150 [&>a]:transition-transform">

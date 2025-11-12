@@ -14,7 +14,7 @@ export function ProjectsPage() {
       id="skills"
       className="flex flex-col p-12 gap-y-8 w-full h-full"
     >
-      <h1 className="text-7xl font-[Poppins] font-light flex items-center gap-x-4">
+      <h1 className="text-3xl md:text-7xl font-[Poppins] font-light flex items-center gap-x-4">
         Projects
         <Link
           href={"https://github.com/KoblizekXD"}
@@ -25,7 +25,7 @@ export function ProjectsPage() {
         </Link>
       </h1>
       <div className="bg-[url('/tdc.png')] bg-cover bg-center p-4 space-y-4 rounded shadow bg-black/60 bg-blend-multiply flex-1">
-        <h2 className="text-3xl font-[Poppins] font-light">Tour de Cloud</h2>
+        <h2 className="text-xl md:text-3xl font-[Poppins] font-light">Tour de Cloud</h2>
         <p>
           A self-hostable platform for deploying user applications to our
           platform. Developed for the Tour de App competition.

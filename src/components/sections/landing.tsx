@@ -33,13 +33,13 @@ export function LandingPage() {
       id="landing"
       className="flex flex-col p-12 gap-y-4 w-full h-full"
     >
-      <motion.h1 className="text-7xl font-[Poppins] font-light" variants={item}>
+      <motion.h1 className="text-3xl md:text-7xl font-[Poppins] font-light" variants={item}>
         Hello! 👋
       </motion.h1>
-      <motion.h2 className="font-[Poppins] font-light text-5xl" variants={item}>
+      <motion.h2 className="font-[Poppins] font-light text-xl md:text-5xl" variants={item}>
         I'm Jan
       </motion.h2>
-      <motion.h3 className="font-[Poppins] font-light text-3xl" variants={item}>
+      <motion.h3 className="font-[Poppins] font-light text-lg md:text-3xl" variants={item}>
         An aspiring{" "}
         {(
           (Date.now() - new Date("08/01/2007").getTime()) /
@@ -64,7 +64,7 @@ export function LandingPage() {
       <div className="mt-auto flex items-center justify-center">
         <motion.button
           variants={button}
-          className="cursor-pointer rounded-full bg-white/10 px-6 py-4 text-xl font-[Poppins]"
+          className="cursor-pointer rounded-full bg-white/10 px-6 py-4 text-sm md:text-xl font-[Poppins]"
           type="button"
           onClick={() => setIndex((prev) => prev + 1)}
         >
