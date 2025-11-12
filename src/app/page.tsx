@@ -14,6 +14,8 @@ import { useCallback, useEffect, useRef } from "react";
 function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
   const [index, setIndex] = useAtom(offsetIndexAtom);
   const isAnimatingRef = useRef(false);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
 
   const handleWheel = useCallback(
     (e: React.WheelEvent<HTMLDivElement>) => {
@@ -28,6 +30,38 @@ function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
     [children.length, setIndex]
   );
 
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      touchEndY.current = null;
+      touchStartY.current = e.targetTouches[0].clientY;
+    },
+    []
+  );
+
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndY.current = e.targetTouches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStartY.current || !touchEndY.current || isAnimatingRef.current)
+      return;
+
+    const distance = touchStartY.current - touchEndY.current;
+    const isSignificantSwipe = Math.abs(distance) > 50; // Minimum swipe distance
+
+    if (isSignificantSwipe) {
+      if (distance > 0) {
+        // Swipe up - move to next section
+        setIndex((i) => Math.min(i + 1, children.length - 1));
+        isAnimatingRef.current = true;
+      } else {
+        // Swipe down - move to previous section
+        setIndex((i) => Math.max(i - 1, 0));
+        isAnimatingRef.current = true;
+      }
+    }
+  }, [children.length, setIndex]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: We need this
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -40,6 +74,9 @@ function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
     <div
       className="relative md:w-3/4 md:h-3/4 w-[90%] h-[90%] overflow-hidden touch-none select-none"
       onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {children.map((child, i) => (
         <div
