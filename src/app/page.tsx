@@ -18,17 +18,32 @@ function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
   const touchEndY = useRef<number | null>(null);
 
   const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
-      if (e.deltaY > 0 && !isAnimatingRef.current) {
-        setIndex((i) => Math.min(i + 1, children.length - 1));
-        isAnimatingRef.current = true;
-      } else if (e.deltaY < 0 && !isAnimatingRef.current) {
-        setIndex((i) => Math.max(i - 1, 0));
-        isAnimatingRef.current = true;
-      }
-    },
-    [children.length, setIndex]
-  );
+  (e: React.WheelEvent<HTMLDivElement>) => {
+    const isScrollingDown = e.deltaY > 0;
+    const isScrollingUp = e.deltaY < 0;
+
+    if (
+      (isScrollingDown && index === children.length - 1) ||
+      (isScrollingUp && index === 0)
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (!isAnimatingRef.current) {
+      isAnimatingRef.current = true;
+
+      setIndex((i) => {
+        if (isScrollingDown) return Math.min(i + 1, children.length - 1);
+        if (isScrollingUp) return Math.max(i - 1, 0);
+        return i;
+      });
+    }
+  },
+  [children.length, index, setIndex]
+);
+
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
@@ -51,11 +66,9 @@ function VerticalSwipe({ children }: { children: React.ReactNode[] }) {
 
     if (isSignificantSwipe) {
       if (distance > 0) {
-        // Swipe up - move to next section
         setIndex((i) => Math.min(i + 1, children.length - 1));
         isAnimatingRef.current = true;
       } else {
-        // Swipe down - move to previous section
         setIndex((i) => Math.max(i - 1, 0));
         isAnimatingRef.current = true;
       }
