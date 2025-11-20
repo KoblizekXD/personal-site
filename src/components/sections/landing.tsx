@@ -1,6 +1,6 @@
+import { offsetIndexAtom } from "@/atoms/offset-index";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
-import { offsetIndexAtom } from "@/atoms/offset-index";
 
 const container = {
   hidden: { opacity: 1 },
@@ -33,13 +33,22 @@ export function LandingPage() {
       id="landing"
       className="flex flex-col p-12 gap-y-4 w-full h-full"
     >
-      <motion.h1 className="text-3xl md:text-7xl font-[Poppins] font-light" variants={item}>
+      <motion.h1
+        className="text-3xl md:text-7xl font-[Poppins] font-light"
+        variants={item}
+      >
         Hello! 👋
       </motion.h1>
-      <motion.h2 className="font-[Poppins] font-light text-xl md:text-5xl" variants={item}>
+      <motion.h2
+        className="font-[Poppins] font-light text-xl md:text-5xl"
+        variants={item}
+      >
         I'm Jan
       </motion.h2>
-      <motion.h3 className="font-[Poppins] font-light text-lg md:text-3xl" variants={item}>
+      <motion.h3
+        className="font-[Poppins] font-light text-lg md:text-3xl"
+        variants={item}
+      >
         An aspiring{" "}
         {(
           (Date.now() - new Date("08/01/2007").getTime()) /
@@ -51,16 +60,6 @@ export function LandingPage() {
         ).toFixed(0)}{" "}
         year old Software Engineer from Czech Republic
       </motion.h3>
-      <div className="mt-auto flex flex-col font-[Poppins] font-light text-sm text-gray-600">
-        <motion.div variants={item} className="ml-auto">
-          <h3 className="font-semibold">Tasks</h3>
-          <p>I was asked to add this by my teacher (wow), but I think this is pointless 🤷‍♂️ <br /> and will make the site uglier.</p>
-          <br />
-          <ul>
-            <li>- Finish thesis</li>
-          </ul>
-        </motion.div>
-      </div>
       <div className="mt-auto flex items-center justify-center">
         <motion.button
           variants={button}
